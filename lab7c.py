@@ -15,12 +15,23 @@ def format_time(t):
     return f'{t.hour:02d}:{t.minute:02d}:{t.second:02d}'
 
 def sum_times(t1, t2):
-    """Add two time objests and return the sum."""
-    sum = Time(0,0,0)
-    sum.hour = t1.hour + t2.hour
-    sum.minute = t1.minute + t2.minute
-    sum.second = t1.second + t2.second
-    return sum
+    total_seconds = time_to_sec(t1) + time_to_sec(t2)
+    return sec_to_time(total_seconds)
+
+def change_time(time, seconds):
+    new_time = sec_to_time(time_to_sec(time) + seconds)
+    time.hour, time.minute, time.second = new_time.hour, new_time.minute, new_time.second
+
+def time_to_sec(time):
+    minutes = time.hour * 60 + time.minute
+    seconds = minutes * 60 + time.second
+    return seconds
+
+def sec_to_time(seconds):
+    time = Time()
+    minutes, time.second = divmod(seconds, 60)
+    time.hour, time.minute = divmod(minutes, 60)
+    return time
 
 def valid_time(t):
     """check for the validity of the time object attributes:
